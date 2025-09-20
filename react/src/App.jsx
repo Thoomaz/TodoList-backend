@@ -3,13 +3,11 @@ import AddTask from "./components/AddTask";
 import Done from "./components/Done";
 import Tasks from "./components/Tasks";
 import { Toaster } from "@/components/ui/toaster";
-import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
 export default function App() {
-  const [atualizar, setAtualizar] = useState(false);
   return (
     <Box
       color={"#686868"}

@@ -18,7 +18,7 @@ export default function AddTask() {
 
   const addTarefaMutation = useMutation({
     mutationFn: async (data) => {
-      const response = await fetch("http://localhost:8080/api/form", {
+      const response = await fetch("http://localhost:8080/task", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -32,7 +32,7 @@ export default function AddTask() {
         closable: true,
       });
 
-      queryClient.invalidateQueries({ queryKey: ["tarefas"] });
+      queryClient.invalidateQueries({ queryKey: ["task"] });
     },
     onError: () => {
       toaster.error({
@@ -45,6 +45,7 @@ export default function AddTask() {
 
   const onSubmit = (data) => {
     addTarefaMutation.mutate(data);
+    console.log(data);
   };
 
   return (

@@ -8,18 +8,14 @@ import {
   Center,
   VStack,
   Text,
-  AbsoluteCenter,
-  HStack,
-  IconButton,
-  CollapsibleRoot,
 } from "@chakra-ui/react";
 import { GiPoisonCloud } from "react-icons/gi";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 
 import { useQuery } from "@tanstack/react-query";
 
-const fetchTarefas = async () => {
-  const res = await fetch("http://localhost:8080/api/form");
+const fetchTasks = async () => {
+  const res = await fetch("http://localhost:8080/task");
   return res.json();
 };
 export default function Tasks() {
@@ -28,8 +24,8 @@ export default function Tasks() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["tarefas"],
-    queryFn: fetchTarefas,
+    queryKey: ["task"],
+    queryFn: fetchTasks,
   });
 
   const loading = () => {
@@ -51,11 +47,11 @@ export default function Tasks() {
   };
 
   const borderColors = {
-    1: "1px solid #EF7575",
-    2: "1px solid #FFEE6A",
-    3: "1px solid #91EA71",
+    0: "#EF7575",
+    1: "#FFEE6A",
+    2: "#91EA71",
   };
-
+  const priorityOrder = { HIGH: 1, MEDIUM: 2, LOW: 3 };
   return (
     <Box
       rounded="md"
@@ -75,7 +71,7 @@ export default function Tasks() {
           <ScrollArea.Content spaceY="4" textStyle="sm">
             {dados
               .slice()
-              .sort((a, b) => a.prioridade - b.prioridade)
+              .sort((a, b) => a.priority - b.priority)
               .map((item) => (
                 <Box key={item.id}>
                   <Collapsible.Root
@@ -84,7 +80,9 @@ export default function Tasks() {
                     shadow={"xs"}
                     mt={2}
                     mr={3}
-                    border={borderColors[item.prioridade] || "1px solid gray"}
+                    borderWidth="1px"
+                    borderStyle="solid"
+                    borderColor={borderColors[item.priority] || "gray"}
                   >
                     <Collapsible.Trigger
                       paddingY="3"
@@ -92,7 +90,7 @@ export default function Tasks() {
                       pl={4}
                       pr={4}
                     >
-                      <strong>{item.tituloDaTarefa}</strong>
+                      <strong>{item.title}</strong>
                     </Collapsible.Trigger>
 
                     <Collapsible.Content minW={"10rem"}>
@@ -103,7 +101,7 @@ export default function Tasks() {
                         color={"black"}
                         border={"none"}
                       >
-                        <p>{item.descricaoDaTarefa}</p>
+                        <p>{item.description}</p>
                       </Box>
                     </Collapsible.Content>
                   </Collapsible.Root>

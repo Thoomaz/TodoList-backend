@@ -3,22 +3,22 @@ import { Controller } from "react-hook-form";
 
 const prioridades = createListCollection({
   items: [
-    { label: "🔴 Pra ontem", value: "1" },
-    { label: "🟡 Quando der", value: "2" },
-    { label: "🟢 Sem pressa", value: "3" },
+    { label: "🔴 Pra ontem", value: "0" },
+    { label: "🟡 Quando der", value: "1" },
+    { label: "🟢 Sem pressa", value: "2" },
   ],
 });
 
 export default function SelecTaskForm({ control, register, errors }) {
   return (
-    <Field.Root invalid={!!errors.prioridade} flex="1">
+    <Field.Root invalid={!!errors.priority} flex="1">
       <Field.Label fontSize={"md"}>Prioridade</Field.Label>
       <Controller
         control={control}
-        name="prioridade"
+        name="priority"
         render={({ field }) => (
           <Select.Root
-            {...register("prioridade", { required: true })}
+            {...register("priority", { required: true })}
             color={"black"}
             name={field.name}
             value={field.value ? [field.value] : []}
@@ -48,14 +48,14 @@ export default function SelecTaskForm({ control, register, errors }) {
                   bgColor={"white"}
                   color={"black"}
                 >
-                  {prioridades.items.map((prioridade) => (
+                  {prioridades.items.map((priority) => (
                     <Select.Item
-                      item={prioridade}
-                      key={parseInt(prioridade.value)}
+                      item={priority}
+                      key={priority.value}
                       _hover={{ bg: "#609398" }}
                       rounded={"md"}
                     >
-                      {prioridade.label}
+                      {priority.label}
                       <Select.ItemIndicator />
                     </Select.Item>
                   ))}
@@ -65,7 +65,7 @@ export default function SelecTaskForm({ control, register, errors }) {
           </Select.Root>
         )}
       />
-      <Field.ErrorText>{errors.prioridades?.message}</Field.ErrorText>
+      <Field.ErrorText>{errors.priority?.message}</Field.ErrorText>
     </Field.Root>
   );
 }
