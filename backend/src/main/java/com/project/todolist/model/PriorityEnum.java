@@ -1,9 +1,11 @@
 package com.project.todolist.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum PriorityEnum {
-    URGENT(1),
-    MODERATE(2),
-    NORMAL(3);
+    URGENT(0),
+    MODERATE(1),
+    NORMAL(2);
 
     private final int value;
 
@@ -11,6 +13,7 @@ public enum PriorityEnum {
         this.value = value;
     }
 
+    @JsonValue
     public int getValue() {
         return value;
     }
