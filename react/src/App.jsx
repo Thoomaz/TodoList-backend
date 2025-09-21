@@ -11,7 +11,7 @@ export default function App() {
   return (
     <Box
       color={"#686868"}
-      bgColor={"#eef4f3"}
+      bgColor={"#EDF9EB"}
       w={"full"}
       h={"100vh"}
       display={"flex"}

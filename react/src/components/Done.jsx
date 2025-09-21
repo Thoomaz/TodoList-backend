@@ -12,7 +12,7 @@ export default function Done() {
       <Heading size={"2xl"} fontFamily={"Sen"}>
         Concluídas
       </Heading>
-      <Separator />
+      <Separator borderColor={"#686868"} />
     </Box>
   );
 }

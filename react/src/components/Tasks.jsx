@@ -8,11 +8,14 @@ import {
   Center,
   VStack,
   Text,
+  HStack,
 } from "@chakra-ui/react";
-import { GiPoisonCloud } from "react-icons/gi";
-import { HiMiniPencilSquare } from "react-icons/hi2";
 
+import { GiPoisonCloud } from "react-icons/gi";
+import { MdOutlineTaskAlt } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
+import DeleteButtonDialog from "./Modals/DeleteButtonDialog";
+import { EditTaskDialog } from "./Modals/EditTaskDialog";
 
 const fetchTasks = async () => {
   const res = await fetch("http://localhost:8080/task");
@@ -51,7 +54,7 @@ export default function Tasks() {
     1: "#FFEE6A",
     2: "#91EA71",
   };
-  const priorityOrder = { HIGH: 1, MEDIUM: 2, LOW: 3 };
+
   return (
     <Box
       rounded="md"
@@ -63,50 +66,64 @@ export default function Tasks() {
       <Heading size={"2xl"} fontFamily={"Sen"}>
         Tarefas
       </Heading>
-      <Separator />
+      <Separator borderColor={"#686868"} />
 
       <ScrollArea.Root h={"62vh"} size={"sm"}>
         <ScrollArea.Viewport>
           {loading()}
           <ScrollArea.Content spaceY="4" textStyle="sm">
-            {dados
-              .slice()
-              .sort((a, b) => a.priority - b.priority)
-              .map((item) => (
-                <Box key={item.id}>
-                  <Collapsible.Root
-                    unmountOnExit
-                    rounded={"xl"}
-                    shadow={"xs"}
-                    mt={2}
-                    mr={3}
-                    borderWidth="1px"
-                    borderStyle="solid"
-                    borderColor={borderColors[item.priority] || "gray"}
-                  >
-                    <Collapsible.Trigger
-                      paddingY="3"
-                      cursor={"pointer"}
-                      pl={4}
-                      pr={4}
+            {dados.length === 0 && !isLoading && !isError ? (
+              <Center h={"60vh"}>
+                <VStack>
+                  <MdOutlineTaskAlt size={"3rem"} />
+                  <Text fontSize={"lg"}>Sua lista de tarefas está vazia.</Text>
+                </VStack>
+              </Center>
+            ) : (
+              dados
+                .sort((a, b) => a.priority - b.priority)
+                .map((item) => (
+                  <Box key={item.id}>
+                    <Collapsible.Root
+                      unmountOnExit
+                      rounded={"xl"}
+                      shadow={"xs"}
+                      mt={2}
+                      mr={3}
+                      borderWidth="1px"
+                      borderStyle="solid"
+                      borderColor={borderColors[item.priority] || "gray"}
                     >
-                      <strong>{item.title}</strong>
-                    </Collapsible.Trigger>
-
-                    <Collapsible.Content minW={"10rem"}>
-                      <Separator m={1} />
-                      <Box
-                        padding="4"
-                        borderWidth="1px"
-                        color={"black"}
-                        border={"none"}
-                      >
-                        <p>{item.description}</p>
-                      </Box>
-                    </Collapsible.Content>
-                  </Collapsible.Root>
-                </Box>
-              ))}
+                      <HStack justifyContent={"space-between"}>
+                        <Collapsible.Trigger
+                          paddingY="3"
+                          cursor={"pointer"}
+                          w={"70%"}
+                          pl={4}
+                          textAlign={"left"}
+                        >
+                          <strong>{item.title}</strong>
+                        </Collapsible.Trigger>
+                        <HStack pr={2}>
+                          <EditTaskDialog />
+                          <DeleteButtonDialog taskId={item.id} />
+                        </HStack>
+                      </HStack>
+                      <Collapsible.Content minW={"10rem"}>
+                        <Separator m={1} borderColor={"#686868"} />
+                        <Box
+                          padding="4"
+                          borderWidth="1px"
+                          color={"black"}
+                          border={"none"}
+                        >
+                          <p>{item.description}</p>
+                        </Box>
+                      </Collapsible.Content>
+                    </Collapsible.Root>
+                  </Box>
+                ))
+            )}
           </ScrollArea.Content>
         </ScrollArea.Viewport>
         <ScrollArea.Scrollbar bg="teal.900">

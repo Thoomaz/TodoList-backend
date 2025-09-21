@@ -28,6 +28,7 @@ export default function AddTask() {
     onSuccess: () => {
       toaster.success({
         description: "Tarefa adicionada com sucesso.",
+        color: "white",
         duration: 2000,
         closable: true,
       });
