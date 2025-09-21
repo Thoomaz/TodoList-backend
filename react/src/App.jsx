@@ -37,7 +37,7 @@ export default function App() {
           <GridItem rowSpan={4} w={"40vw"}>
             <Tasks />
           </GridItem>
-          <GridItem rowSpan={2}>
+          <GridItem rowSpan={2} h={"full"}>
             <Done />
           </GridItem>
         </QueryClientProvider>

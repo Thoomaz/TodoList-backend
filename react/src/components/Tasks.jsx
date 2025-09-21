@@ -14,7 +14,7 @@ import {
 
 import { GiPoisonCloud } from "react-icons/gi";
 import { MdOutlineTaskAlt } from "react-icons/md";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import DeleteButtonDialog from "./Modals/DeleteButtonDialog";
 import { EditTaskDialog } from "./Modals/EditTaskDialog";
 
@@ -22,6 +22,16 @@ const fetchTasks = async () => {
   const res = await fetch("http://localhost:8080/task");
   return res.json();
 };
+
+const updateTask = async (task) => {
+  const res = await fetch(`http://localhost:8080/task/${task.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...task, done: !task.done }),
+  });
+  return res.json();
+};
+
 export default function Tasks() {
   const {
     data: dados = [],
@@ -50,6 +60,18 @@ export default function Tasks() {
       );
   };
 
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: updateTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["task"]);
+    },
+  });
+
+  const handleToggleDone = (task) => {
+    mutation.mutate(task);
+  };
+
   const borderColors = {
     0: "#EF7575",
     1: "#FFEE6A",
@@ -73,7 +95,9 @@ export default function Tasks() {
         <ScrollArea.Viewport>
           {loading()}
           <ScrollArea.Content spaceY="4" textStyle="sm">
-            {dados.length === 0 && !isLoading && !isError ? (
+            {dados.filter((item) => !item.done).length === 0 &&
+            !isLoading &&
+            !isError ? (
               <Center h={"60vh"}>
                 <VStack>
                   <MdOutlineTaskAlt size={"3rem"} />
@@ -82,6 +106,7 @@ export default function Tasks() {
               </Center>
             ) : (
               dados
+                .filter((item) => !item.done)
                 .sort((a, b) => a.priority - b.priority)
                 .map((item) => (
                   <Box key={item.id}>
@@ -97,7 +122,12 @@ export default function Tasks() {
                       borderColor={borderColors[item.priority] || "gray"}
                     >
                       <HStack justifyContent={"space-between"}>
-                        <Checkbox.Root pl={3}>
+                        <Checkbox.Root
+                          pl={3}
+                          checked={item.done}
+                          onCheckedChange={() => handleToggleDone(item)}
+                          variant={"outline"}
+                        >
                           <Checkbox.HiddenInput />
                           <Checkbox.Control />
                         </Checkbox.Root>
