@@ -14,14 +14,16 @@ public class Task {
     private String title;
     private String description;
     private PriorityEnum priority;
+    private Boolean done;
 
     public Task() {}
 
-    public Task(Long id, String title, String description, PriorityEnum priority) {
+    public Task(Long id, String title, String description, PriorityEnum priority, Boolean done) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.priority = priority;
+        this.done = done;
     }
 
     public Long getId() {
@@ -50,5 +52,12 @@ public class Task {
     }
     public void setPriority(PriorityEnum priority) {
         this.priority = priority;
+    }
+
+    public Boolean getDone() {
+        return done;
+    }
+    public void setDone(Boolean done) {
+        this.done = done;
     }
 }
