@@ -77,7 +77,7 @@ export default function AddTask() {
               flexShrink={0}
               w={"10vw"}
               fontSize={"lg"}
-              isLoading={addTarefaMutation.isPending}
+              loading={addTarefaMutation.isPending}
             >
               Adicionar
             </Button>

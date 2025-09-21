@@ -47,6 +47,7 @@ export default function SelecTaskForm({ control, register, errors }) {
                   rounded={"xl"}
                   bgColor={"white"}
                   color={"black"}
+                  zIndex={2000}
                 >
                   {prioridades.items.map((priority) => (
                     <Select.Item

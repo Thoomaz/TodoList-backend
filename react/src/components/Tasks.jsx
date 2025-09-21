@@ -9,6 +9,7 @@ import {
   VStack,
   Text,
   HStack,
+  Checkbox,
 } from "@chakra-ui/react";
 
 import { GiPoisonCloud } from "react-icons/gi";
@@ -66,7 +67,7 @@ export default function Tasks() {
       <Heading size={"2xl"} fontFamily={"Sen"}>
         Tarefas
       </Heading>
-      <Separator borderColor={"#686868"} />
+      <Separator />
 
       <ScrollArea.Root h={"62vh"} size={"sm"}>
         <ScrollArea.Viewport>
@@ -89,28 +90,35 @@ export default function Tasks() {
                       rounded={"xl"}
                       shadow={"xs"}
                       mt={2}
+                      mb={2}
                       mr={3}
                       borderWidth="1px"
                       borderStyle="solid"
                       borderColor={borderColors[item.priority] || "gray"}
                     >
                       <HStack justifyContent={"space-between"}>
+                        <Checkbox.Root pl={3}>
+                          <Checkbox.HiddenInput />
+                          <Checkbox.Control />
+                        </Checkbox.Root>
                         <Collapsible.Trigger
                           paddingY="3"
                           cursor={"pointer"}
                           w={"70%"}
-                          pl={4}
                           textAlign={"left"}
                         >
                           <strong>{item.title}</strong>
                         </Collapsible.Trigger>
                         <HStack pr={2}>
-                          <EditTaskDialog />
+                          <EditTaskDialog task={item} />
                           <DeleteButtonDialog taskId={item.id} />
                         </HStack>
                       </HStack>
                       <Collapsible.Content minW={"10rem"}>
-                        <Separator m={1} borderColor={"#686868"} />
+                        <Separator
+                          m={1}
+                          borderColor={borderColors[item.priority] || "gray"}
+                        />
                         <Box
                           padding="4"
                           borderWidth="1px"
