@@ -78,7 +78,7 @@ export function EditTaskDialog({ task }) {
 
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
-                <Button variant="outline">Cancelar</Button>
+                <Button variant="subtle">Cancelar</Button>
               </Dialog.ActionTrigger>
 
               <Button
@@ -92,7 +92,7 @@ export function EditTaskDialog({ task }) {
             </Dialog.Footer>
 
             <Dialog.CloseTrigger asChild>
-              <CloseButton size="sm" />
+              <CloseButton size="xs" variant={"plain"} color={"#686868"} />
             </Dialog.CloseTrigger>
           </Dialog.Content>
         </Dialog.Positioner>

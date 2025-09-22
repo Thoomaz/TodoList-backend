@@ -129,7 +129,7 @@ export default function Tasks() {
                           variant={"outline"}
                         >
                           <Checkbox.HiddenInput />
-                          <Checkbox.Control />
+                          <Checkbox.Control cursor={"pointer"} />
                         </Checkbox.Root>
                         <Collapsible.Trigger
                           paddingY="3"

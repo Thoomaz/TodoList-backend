@@ -14,6 +14,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import DeleteButtonDialog from "./Modals/DeleteButtonDialog";
 import { EditTaskDialog } from "./Modals/EditTaskDialog";
 import { GiThink } from "react-icons/gi";
+
 const fetchTasks = async () => {
   const res = await fetch("http://localhost:8080/task");
   return res.json();
@@ -48,6 +49,12 @@ export default function Done() {
   };
 
   const concluidas = dados.filter((item) => item.done);
+
+  const borderColors = {
+    0: "#EF7575",
+    1: "#FFEE6A",
+    2: "#91EA71",
+  };
 
   return (
     <Box
@@ -84,7 +91,7 @@ export default function Done() {
                   mr={3}
                   borderWidth="1px"
                   borderStyle="solid"
-                  borderColor="gray"
+                  borderColor={borderColors[item.priority] || "gray"}
                 >
                   <HStack justifyContent={"space-between"}>
                     <Checkbox.Root
@@ -93,7 +100,7 @@ export default function Done() {
                       onCheckedChange={() => handleToggleDone(item)}
                     >
                       <Checkbox.HiddenInput />
-                      <Checkbox.Control />
+                      <Checkbox.Control cursor={"pointer"} />
                     </Checkbox.Root>
                     <Collapsible.Trigger
                       paddingY="3"
@@ -101,7 +108,10 @@ export default function Done() {
                       w={"70%"}
                       textAlign={"left"}
                     >
-                      <strong>{item.title}</strong>
+                      <Text textDecoration={"line-through"}>
+                        {" "}
+                        <strong>{item.title}</strong>
+                      </Text>
                     </Collapsible.Trigger>
                     <HStack pr={2}>
                       <EditTaskDialog task={item} />
@@ -109,7 +119,10 @@ export default function Done() {
                     </HStack>
                   </HStack>
                   <Collapsible.Content minW={"10rem"}>
-                    <Separator m={1} borderColor="gray" />
+                    <Separator
+                      m={1}
+                      borderColor={borderColors[item.priority] || "gray"}
+                    />
                     <Box padding="4" color={"black"} border={"none"}>
                       <p>{item.description}</p>
                     </Box>
