@@ -14,19 +14,23 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import DeleteButtonDialog from "./Modals/DeleteButtonDialog";
 import { EditTaskDialog } from "./Modals/EditTaskDialog";
 import { GiThink } from "react-icons/gi";
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:8080",
+});
 
 const fetchTasks = async () => {
-  const res = await fetch("http://localhost:8080/task");
-  return res.json();
+  const { data } = await api.get("/task");
+  return data;
 };
 
 const updateTask = async (task) => {
-  const res = await fetch(`http://localhost:8080/task/${task.id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...task, done: !task.done }),
+  const { data } = await api.put(`/task/${task.id}`, {
+    ...task,
+    done: !task.done,
   });
-  return res.json();
+  return data;
 };
 
 export default function Done() {

@@ -5,7 +5,7 @@ import DescriptionTaskForm from "./TaskForm/DescriptionTaskForm";
 import SelecTaskForm from "./TaskForm/SelectTaskForm";
 import { toaster } from "./ui/toaster";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import axios from "axios";
 export default function AddTask() {
   const {
     register,
@@ -18,12 +18,8 @@ export default function AddTask() {
 
   const addTarefaMutation = useMutation({
     mutationFn: async (data) => {
-      const response = await fetch("http://localhost:8080/task", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      return response.json();
+      const response = await axios.post("http://localhost:8080/task", data);
+      return response.data;
     },
     onSuccess: () => {
       toaster.success({
