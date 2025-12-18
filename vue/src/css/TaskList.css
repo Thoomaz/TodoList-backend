@@ -1,0 +1,70 @@
+.container {
+  width: 40vw;
+  margin: auto;
+  color: #686868;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-modal,
+.tasks {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 1px 1px 5px;
+}
+
+.form-modal input,
+textarea,
+select {
+  border-radius: 8px;
+  padding: 12px;
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.form-modal button {
+  background-color: #609398;
+}
+
+.filters {
+  margin: 16px 0;
+  display: flex;
+  gap: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  border: 1px solid #ddd;
+  padding: 12px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.actions button {
+  color: #686868;
+  padding: 0;
+  margin-left: 8px;
+  background-color: transparent;
+}
+
+#delete {
+  color: red;
+}
+
+.done {
+  text-decoration: line-through;
+  color: gray;
+}
