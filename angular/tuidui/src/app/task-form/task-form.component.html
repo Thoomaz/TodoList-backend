@@ -1,0 +1,28 @@
+<div class="form-container">
+  <div class="input-group">
+    <input type="text" [(ngModel)]="title" placeholder="Título da tarefa..." class="custom-input">
+  </div>
+
+  <div class="input-group">
+    <input type="text" [(ngModel)]="description" placeholder="Descrição (opcional)..." class="custom-input">
+  </div>
+
+  <div class="input-group priority-group">
+    <label>Prioridade:</label>
+    <select [(ngModel)]="priority" class="custom-select">
+      <option [ngValue]="2">Baixa</option>
+      <option [ngValue]="1">Média</option>
+      <option [ngValue]="0">Alta</option>
+    </select>
+  </div>
+
+  <div class="btn-group">
+    <button (click)="onSubmit()" class="add-btn">
+      {{ taskToEdit() ? 'Salvar Alterações' : 'Adicionar' }}
+    </button>
+
+    @if (taskToEdit()) {
+    <button (click)="onCancel()" class="cancel-btn">Cancelar</button>
+    }
+  </div>
+</div>

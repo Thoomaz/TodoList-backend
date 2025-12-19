@@ -1,0 +1,65 @@
+<div class="tabs-container">
+  <button class="tab-btn" [class.active]="filter() === 'pending'" (click)="setFilter('pending')">
+    Pendentes ({{ pendingCount() }})
+  </button>
+  <button class="tab-btn" [class.active]="filter() === 'completed'" (click)="setFilter('completed')">
+    Concluídos ({{ completedCount() }})
+  </button>
+</div>
+
+<div class="list-content">
+  @if (filteredTasks().length === 0) {
+  <p class="empty-state">
+    {{ filter() === 'pending' ? 'Nenhuma tarefa pendente' : 'Nenhuma tarefa concluída' }}
+  </p>
+  } @else {
+  <ul class="task-ul">
+    @for (task of filteredTasks(); track task.id) {
+    <li class="task-item" [class.completed-item]="task.done">
+
+      <div class="task-info">
+        <span class="task-title">{{ task.title }}</span>
+        <small class="task-meta">
+          {{ getPriorityLabel(task.priority) }}
+          @if(task.description) { • {{ task.description }} }
+        </small>
+      </div>
+
+      <div class="task-actions">
+        <!-- Botão Editar (Só aparece se não estiver concluída, opcional) -->
+        @if (!task.done) {
+        <button class="action-btn edit" (click)="editTask.emit(task)" title="Editar">
+          <!-- Ícone de Lápis SVG -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+        </button>
+        }
+
+        <!-- Botão Concluir/Reabrir -->
+        <button class="action-btn check" (click)="toggleComplete.emit(task)"
+          [title]="task.done ? 'Reabrir' : 'Concluir'">
+          @if (task.done) {
+          <!-- Ícone Undo/Reabrir -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          } @else {
+          <!-- Ícone Check/Concluir -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          }
+        </button>
+      </div>
+
+    </li>
+    }
+  </ul>
+  }
+</div>

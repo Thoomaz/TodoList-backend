@@ -1,0 +1,101 @@
+.form-container {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 2rem;
+  background-color: transparent;
+
+  width: 100%;
+  /* Garante que ocupe a largura total */
+  max-width: 100%;
+  /* <--- Alterado: remove o limite de 600px para preencher o pai (900px) */
+
+  margin: 0 auto;
+}
+
+
+.input-group {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.custom-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  padding: 0.8rem 0;
+  font-size: 1rem;
+}
+
+.custom-input::placeholder {
+  color: #555;
+}
+
+.priority-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  /* Borda ao redor do select também */
+  padding: 0.5rem 0;
+  border: 1px solid var(--border-color);
+  /* A imagem mostra uma caixa ao redor da prioridade */
+  border-radius: 4px;
+  padding: 0 1rem;
+  height: 45px;
+}
+
+.priority-group label {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.custom-select {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.custom-select option {
+  background-color: var(--bg-color);
+}
+
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.add-btn {
+  flex: 1;
+  padding: 1rem;
+  background-color: var(--btn-bg);
+  color: #111;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.add-btn:hover {
+  background-color: var(--btn-hover);
+}
+
+.cancel-btn {
+  flex: 1;
+  padding: 1rem;
+  background-color: transparent;
+  border: 1px solid #ff5555;
+  color: #ff5555;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cancel-btn:hover {
+  background-color: rgba(255, 85, 85, 0.1);
+}

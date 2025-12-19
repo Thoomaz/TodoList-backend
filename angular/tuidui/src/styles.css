@@ -1,0 +1,32 @@
+:root {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-main: #e0e0e0;
+  --text-muted: #888888;
+  --border-color: #444444;
+  --accent-color: #eee4d6; /* A cor bege do botão ativo */
+  --btn-bg: #5a5754; /* Cor do botão Adicionar */
+  --btn-hover: #6e6b68;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 5rem;
+}
+
+input, select, button {
+  font-family: inherit;
+  outline: none;
+}

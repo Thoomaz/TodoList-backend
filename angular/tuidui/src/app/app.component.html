@@ -1,0 +1,12 @@
+<main class="main-container">
+  <h1 class="app-title">Tarefas</h1>
+
+  <!-- Passamos a tarefa em edição (taskToEdit) e escutamos saveTask e cancelEdit -->
+  <app-task-form [taskToEdit]="editingTask()" (saveTask)="handleSaveTask($event)" (cancelEdit)="handleCancelEdit()">
+  </app-task-form>
+
+  <!-- Escutamos os eventos de toggle e edit vindos da lista -->
+  <app-task-list [tasks]="tasks()" (toggleComplete)="handleToggle($event)" (editTask)="handleEdit($event)"
+    (deleteTask)="handleDelete($event)">
+  </app-task-list>
+</main>
