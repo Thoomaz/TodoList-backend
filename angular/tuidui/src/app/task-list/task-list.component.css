@@ -102,6 +102,12 @@
   color: #2196F3;
 }
 
+.action-btn.delete:hover {
+  background-color: rgba(244, 67, 54, 0.2);
+  border-color: #F44336;
+  color: #F44336;
+}
+
 /* Estilo visual quando a tarefa está concluída */
 .completed-item {
   opacity: 0.6;
