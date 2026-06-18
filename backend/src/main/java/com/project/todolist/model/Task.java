@@ -14,16 +14,19 @@ public class Task {
     private String title;
     private String description;
     private PriorityEnum priority;
-    private Boolean done;
+    private Boolean done = false;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     public Task() {}
 
-    public Task(Long id, String title, String description, PriorityEnum priority, Boolean done) {
-        this.id = id;
+    public Task(String title, String description, PriorityEnum priority, Boolean done, Long userId) {
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.done = done;
+        this.userId = userId;
     }
 
     public Long getId() {

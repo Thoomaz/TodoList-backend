@@ -1,5 +1,6 @@
 package com.project.todolist.controller;
 
+import com.project.todolist.dto.request.CreateTaskRequest;
 import com.project.todolist.model.Task;
 import com.project.todolist.service.TaskService;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +19,8 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask (@RequestBody Task task) {
+    public ResponseEntity<Task> createTask (@RequestBody CreateTaskRequest task) {
         return ResponseEntity.ok(taskService.createTask(task));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Task>> getAllTasks() {
-        return ResponseEntity.ok(taskService.getAllTasks());
     }
 
     @GetMapping("/{id}")
@@ -34,15 +30,19 @@ public class TaskController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/{id}/check")
+    public ResponseEntity<Task> checkTask(@PathVariable Long id) {
+        return ResponseEntity.ok(taskService.checkTask(id));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
         return ResponseEntity.ok(taskService.updateTask(id, task));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+    public ResponseEntity<String> deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("[SUCCESS]: ");
     }
-
 }

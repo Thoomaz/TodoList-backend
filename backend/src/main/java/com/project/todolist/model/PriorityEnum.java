@@ -2,6 +2,8 @@ package com.project.todolist.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.util.Arrays;
+
 public enum PriorityEnum {
     URGENT(0),
     MODERATE(1),
@@ -16,5 +18,13 @@ public enum PriorityEnum {
     @JsonValue
     public int getValue() {
         return value;
+    }
+
+    public static PriorityEnum fromValue(int value) {
+        return Arrays.stream(values())
+                .filter(p -> p.getValue() == value)
+                .findFirst()
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Prioridade inválida: " + value));
     }
 }
