@@ -27,6 +27,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.project.todolist.dto.request.DeleteUserRequest;
+import com.project.todolist.dto.response.UserResponse;
 
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
@@ -98,5 +100,45 @@ public class UserControllerTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("t2")));
 
         verify(taskService).getTasksByUserIdAndPriority(1L, 2L);
+    }
+
+    @Test
+    void getUserById_returnsUserResponse() throws Exception {
+
+        UserResponse response = new UserResponse("john", 5L);
+
+        when(userService.getUserById(1L))
+                .thenReturn(response);
+
+        mockMvc.perform(get("/users/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(
+                        org.hamcrest.Matchers.containsString("john")
+                ));
+
+        verify(userService).getUserById(1L);
+    }
+
+    @Test
+    void deleteUser_returnsSuccess() throws Exception {
+
+        when(userService.deleteUser(any()))
+                .thenReturn(
+                        org.springframework.http.ResponseEntity
+                                .ok("[SUCCESS]: Usuário deletado")
+                );
+
+        mockMvc.perform(
+                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .delete("/users/1")
+                                .param("userId", "1")
+                                .param("password", "123")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().string(
+                        org.hamcrest.Matchers.containsString("Usuário deletado")
+                ));
+
+        verify(userService).deleteUser(any());
     }
 }
