@@ -1,6 +1,7 @@
 package com.project.todolist.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.project.todolist.exceptions.PriorityNotFoundException;
 
 import java.util.Arrays;
 
@@ -25,6 +26,6 @@ public enum PriorityEnum {
                 .filter(p -> p.getValue() == value)
                 .findFirst()
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Prioridade inválida: " + value));
+                        new PriorityNotFoundException(value));
     }
 }

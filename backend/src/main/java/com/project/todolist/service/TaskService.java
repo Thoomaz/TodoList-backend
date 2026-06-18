@@ -1,8 +1,12 @@
 package com.project.todolist.service;
 
 import com.project.todolist.dto.request.CreateTaskRequest;
+import com.project.todolist.exceptions.PriorityNotFoundException;
+import com.project.todolist.exceptions.TaskNotFoundException;
+import com.project.todolist.exceptions.UserNotFoundException;
 import com.project.todolist.model.PriorityEnum;
 import com.project.todolist.model.Task;
+import com.project.todolist.model.User;
 import com.project.todolist.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +34,10 @@ public class TaskService {
     }
 
     public List<Task> getTasksByUserId(Long userId) {
+        List<Task> tasks = taskRepository.findByUserId(userId);
+        if (tasks == null){
+            throw new UserNotFoundException(userId);
+        }
         return taskRepository.findByUserId(userId);
     }
 
@@ -39,12 +47,12 @@ public class TaskService {
         return taskRepository.findTasksByUserIdAndPriority(userId, priorityEnum);
     }
 
-    public Optional<Task> getTaskById(Long  id) {
-        return taskRepository.findById(id);
+    public Task getTaskById(Long  id) {
+        return taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     public Task checkTask(Long id){
-        Task task = taskRepository.getReferenceById(id);
+        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         task.setDone(true);
 
         return task;
@@ -59,13 +67,10 @@ public class TaskService {
                     task.setDone(updateTask.getDone());
                     return taskRepository.save(task);
                 })
-                .orElseThrow(() -> new RuntimeException("Task not found with id " + id));
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }
-
-
-
 }

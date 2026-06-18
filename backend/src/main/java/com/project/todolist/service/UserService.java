@@ -3,6 +3,7 @@ package com.project.todolist.service;
 import com.project.todolist.dto.request.DeleteUserRequest;
 import com.project.todolist.dto.request.UpdatePasswordRequest;
 import com.project.todolist.dto.response.UserResponse;
+import com.project.todolist.exceptions.UserNotFoundException;
 import com.project.todolist.model.User;
 import com.project.todolist.repository.TaskRepository;
 import com.project.todolist.repository.UserRepository;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -25,12 +28,15 @@ public class UserService {
     }
 
     public UserResponse getUserById(Long id){
-        User user = userRepository.getReferenceById(id);
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException(id));
         return new UserResponse(user.getUsername(), getTotalTeskActive(user.getId()));
     }
 
     public ResponseEntity<String> deleteUser(DeleteUserRequest deleteRequest){
-        User user = userRepository.getReferenceById(deleteRequest.userId());
+        User user = userRepository.findById(deleteRequest.userId()).orElseThrow(
+                () -> new UserNotFoundException(deleteRequest.userId())
+        );
         if (!user.getPassword().equals(deleteRequest.password())){
             return ResponseEntity.badRequest().body("[ERROR]: Senha informada incorretamente");
         }
@@ -38,7 +44,9 @@ public class UserService {
     }
 
     public ResponseEntity<String> updatePassword(UpdatePasswordRequest updatePassword){
-        User user = userRepository.getReferenceById(updatePassword.userId());
+        User user = userRepository.findById(updatePassword.userId()).orElseThrow(
+                () -> new UserNotFoundException(updatePassword.userId())
+        );
         if (!user.getPassword().equals(updatePassword.oldPassword())){
             return ResponseEntity.badRequest().body("[ERROR]: Senha antiga informada incorretamente");
         }
