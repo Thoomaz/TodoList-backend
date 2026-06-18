@@ -2,6 +2,7 @@ package com.project.todolist.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.todolist.exceptions.TaskNotFoundException;
+import com.project.todolist.dto.request.CreateTaskRequest;
 import com.project.todolist.model.PriorityEnum;
 import com.project.todolist.model.Task;
 import com.project.todolist.service.TaskService;
@@ -23,6 +24,8 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -159,5 +162,43 @@ public class TaskControllerTest {
                 mockMvc.perform(delete("/task/99")).andReturn());
 
         assertInstanceOf(TaskNotFoundException.class, ex.getCause());
+    }
+
+    @Test
+    void createTask_returnsTask() throws Exception {
+
+        CreateTaskRequest request =
+                new CreateTaskRequest(
+                        1L,
+                        "Estudar Testes",
+                        "Mockito",
+                        PriorityEnum.NORMAL
+                );
+
+        Task task =
+                new Task(
+                        "Estudar Testes",
+                        "Mockito",
+                        PriorityEnum.NORMAL,
+                        false,
+                        1L
+                );
+
+        when(taskService.createTask(any()))
+                .thenReturn(task);
+
+        mockMvc.perform(
+                        post("/task")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(
+                                        objectMapper.writeValueAsString(request)
+                                )
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().string(
+                        org.hamcrest.Matchers.containsString("Estudar Testes")
+                ));
+
+        verify(taskService).createTask(any());
     }
 }
